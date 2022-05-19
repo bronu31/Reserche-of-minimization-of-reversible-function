@@ -38,7 +38,6 @@ def placer_and_calculator(diff_element):
 def parralel_placer(pop_part,L):
     for i in range(0,len(pop_part)):
         L.append([pop_part[i][0],placer_and_calculator(pop_part[i][0])])
-    print("a")
 
 
 
@@ -69,7 +68,7 @@ def fitness(pop,function):
 def generate(pop):
     for i in range(1, 13):
         pop.append([])
-        for z in range(0, i * 200):
+        for z in range(0, pop_size):
             pop[-1].append(random_gates(i))# TODO создать метод рандомной генерации набора гейтов
 
 
@@ -86,23 +85,26 @@ def reproduction(pop):
     new_pop=[[] for i in range(0,len(pop))]
     new_pop[0]=pop[0]
     for i in range(1,len(pop)):
-        for z in range(0,i*100):
-            new_pop[i].append(take_genes())
-        for z in range(0,i*100):
-            new_pop[i].append(random_gates(i))
+        for z in range(0,100):
+            new_pop[i].append([take_genes(pop[i][0][0],pop[i][rd.randint(1,len(pop[i])-1)][0])])
+        for z in range(0,400):
+            new_pop[i].append(random_gates(len(pop[i][0][0])))
+    new_pop=mutation(new_pop)
+    return new_pop
 
 
-    def mutation(pop):
-        for i in range(0,len(pop)):
-            for z in range(0,len(pop[i])):
-                if rd.random()>0.6:
-                    mut=rd.randint(1,2)
-                    if mut==1 or len(pop[i][z][0])==1:
-                        pop[0][0][0][rd.randint(1,len(pop[0][0][0]))]=rd.randint(1,6)
-                    else:
-                        pop[0][0][0][rd.randint(1, len(pop[0][0][0]))] = rd.randint(1, 6)
-                        pop[0][0][0][rd.randint(1, len(pop[0][0][0]))] = rd.randint(1, 6)
-                else: continue
+def mutation(pop):
+    for i in range(0,len(pop)):
+        for z in range(0,len(pop[i])):
+            if rd.random()>0.6:
+                mut=rd.randint(1,2)
+                if mut==1 or len(pop[i][z][0])==1:
+                    pop[i][z][0][rd.randint(0,len(pop[i][z][0])-1)]=rd.randint(1,6)
+                else:
+                    pop[i][z][0][rd.randint(0, len(pop[i][z][0])-1)] = rd.randint(1, 6)
+                    pop[i][z][0][rd.randint(0, len(pop[i][z][0])-1)] = rd.randint(1, 6)
+            else: continue
+    return pop
 
 
 
@@ -131,6 +133,8 @@ def take_genes(sub1,sub2):
 
 if __name__ == '__main__':
 
+    global pop_size
+    pop_size=500
     procs = []
     manager = mp.Manager()
     L = manager.list()
@@ -157,13 +161,55 @@ if __name__ == '__main__':
     end = time.time()
     print(end - start)
     #x = 1 / 0
-    fitness(pop, [0, 1, 2, 5, 4, 7, 6, 3])
+    fitness(pop, [6, 3, 1, 2, 7, 4, 0, 5])
     #
-    sorting_madnesss(pop)
+    list_lol=[]
 
+    for i in range(0,500):
+        L[:] = []
+        sorting_madnesss(pop)
+        #print(pop,"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+        for ii in range(0,len(pop)):
+            for zz in range(0,len(pop[ii])):
+                if pop[ii][zz][2]==0:
+                    list_lol.append(pop[ii][zz])
+        pop=reproduction(pop)
+
+        procs.clear()
+        for i in range(0, len(pop)):
+            proc = Process(target=parralel_placer, args=(pop[i], L))
+            procs.append(proc)
+            proc.start()
+
+        for proc in procs:
+            proc.join()
+        #if i == 1:
+
+           # break
+
+        pop.clear()
+        for i in range(0, 12): pop.append([])
+        for i in range(0, len(L)):
+            pop[len(L[i][0]) - 1].append(L[i])
+
+
+
+
+        fitness(pop, [6, 3, 1, 2, 7, 4, 0, 5])
+        print(time.time() - start)
+
+    sorting_madnesss(pop)
     end = time.time()
     print(end - start)
     #print(pop)
+    print(end - start)
+    f = open('text.txt', 'w')
+    for i in range(0,len(pop)):
+        for z in range(0,len(pop[i])):
+            f.write(str(pop[i][z]) + ", \n")
+        f.write("\n")
+    f.close()
+    print(list_lol)
 
 
 

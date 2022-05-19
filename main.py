@@ -4,6 +4,7 @@ from itertools import groupby
 import library_bulder as lb
 import overkill_tactics as ot
 import timeit
+import Genetic_Algoritm_Struct as GAS
 #0 - ничего
 #1- отрицание на 0 линии
 #2- отрицание на 1 линии
@@ -55,6 +56,16 @@ diff_list=[[],[[1],[2],[3],[4],[5],[6]]]
 lib=lb.library_bulder(3)
 Holder_of_Min_NumberCombos=[0, 5167, 11536, 23616, 105, 5, 1]
 
+Test=GAS.Genetic_Algorithm()
+print("AAAAAAAAAAAA")
+print(Test)
+
+x=1/0
+
+
+
+f = open('text.txt', 'w')
+
 start = timeit.default_timer()
 for gamma in range(0,math.factorial(8)):
     diff_list.append([])
@@ -67,6 +78,7 @@ for gamma in range(0,math.factorial(8)):
                 del diff_list[-1][-1]
             else:
                 Holder_of_Min_NumberCombos.append(fact)
+                f.write( str(placer_and_calculator(lib, diff_list[-1][-1])) +"\n")
     if len(Holder_of_Min_NumberCombos)==math.factorial(8): break
     gamma=len(Holder_of_Min_NumberCombos)
     print(len(Holder_of_Min_NumberCombos))
@@ -78,61 +90,4 @@ print(Holder_of_Min_NumberCombos)
 
 x=1/0
 
-print(diff_list)
-lib=lb.library_bulder(3)
-arr=[]
-holder=[]
-for z in range(0,len(diff_list[2])):
-    for i in range(0, len(diff_list[2][0])):
-
-        if diff_list[2][z][i] == 0:
-            continue
-        elif diff_list[2][z][i] == 1:
-            lib.place_Not(0)
-        elif diff_list[2][z][i] == 2:
-            lib.place_Not(1)
-        elif diff_list[2][z][i]== 3:
-            lib.place_Not(2)
-        elif diff_list[2][z][i] == 4:
-            lib.place_Toffoli([0, 1, 2])
-        elif diff_list[2][z][i] == 5:
-            lib.place_Toffoli([1, 2, 0])
-        elif diff_list[2][z][i] == 6:
-            lib.place_Toffoli([2, 0, 1])
-
-    arrr = [i for i in range(0, 8)]
-
-    for j in arrr: arrr[j] = lib.calculate(j)
-    holder.append(arrr.copy())
-    print(arrr,lib.gates[0], lib.gates[1])
-    lib.clear()
-
-print(holder)
-numbersss=[]
-for i in range(0,len(holder)):
-    arr2 = []
-    count = 0
-    for z in range(0, len(holder[i]) - 1):
-        for x in range(z, len(holder[z])):
-
-            if (holder[i][z] > holder[i][x]):
-                count += 1
-        arr2.append(count)
-        count = 0
-    count = 0
-    for z in range(0, len(arr2)):
-        count += arr2[z] * math.factorial(len(arr2) - z)
-    numbersss.append(count)
-print(numbersss)
-numbersss.sort()
-new_x = [el for el, _ in groupby(numbersss)]
-
-print(new_x)
-print(len(new_x))
-lib.clear()
-lib.place_Toffoli([0,1,2])
-arrr = [i for i in range(0, 8)]
-for j in arrr: arrr[j] = lib.calculate(j)
-holder.append(arrr.copy())
-print(arrr, lib.gates[0])
 

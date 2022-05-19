@@ -9,7 +9,10 @@ class library_bulder:
 
 
     def __str__(self):
-        return "{}:  {}".format("Number of lanes", self.qubit)
+        outer=""
+        for i in range(0,len(self.gates)):
+            outer+= str(self.gates[i])+ " ; "
+        return "{}:  {}".format("Вентили", outer)
 
     def place_Not(self,lain):
         self.gates.append( Not_Gate.Not_Gate(lain))

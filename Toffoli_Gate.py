@@ -8,4 +8,4 @@ class Toffoli_Gate:
         binar[self.lains[0]] = binar[self.lains[0]] ^ (binar[self.lains[1]] & binar[self.lains[2]])
         return int(''.join(list(map(str, binar))), 2)
 
-    def __str__(self): return "Toffoli gate on lains: {}".format(self.lains)
+    def __str__(self): return "Тоффоли на полосах : {}".format(self.lains)
