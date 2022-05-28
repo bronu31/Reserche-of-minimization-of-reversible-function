@@ -1,20 +1,7 @@
 import math
-import sys
-from itertools import groupby
+
 import library_bulder as lb
-import overkill_tactics as ot
 import timeit
-import Genetic_Algoritm_Struct as GAS
-#0 - ничего
-#1- отрицание на 0 линии
-#2- отрицание на 1 линии
-#3- отрицание на 2 линии
-#4- тоффоли 0 1 2
-#5- тоффоли 1 2 0
-#6- тоффоли 2 0 1
-
-
-#diff_list.append([])
 
 def factorize(holder):
     arr2 = []
@@ -56,15 +43,10 @@ diff_list=[[],[[1],[2],[3],[4],[5],[6]]]
 lib=lb.library_bulder(3)
 Holder_of_Min_NumberCombos=[0, 5167, 11536, 23616, 105, 5, 1]
 
-Test=GAS.Genetic_Algorithm()
 print("AAAAAAAAAAAA")
-print(Test)
-
-x=1/0
 
 
-
-f = open('text.txt', 'w')
+f = open('all of 3.txt', 'w')
 
 start = timeit.default_timer()
 for gamma in range(0,math.factorial(8)):
@@ -78,7 +60,7 @@ for gamma in range(0,math.factorial(8)):
                 del diff_list[-1][-1]
             else:
                 Holder_of_Min_NumberCombos.append(fact)
-                f.write( str(placer_and_calculator(lib, diff_list[-1][-1])) +"\n")
+                f.write( str(placer_and_calculator(lib, diff_list[-1][-1]))+" "+ str(diff_list[-1][-1]) +"\n")
     if len(Holder_of_Min_NumberCombos)==math.factorial(8): break
     gamma=len(Holder_of_Min_NumberCombos)
     print(len(Holder_of_Min_NumberCombos))
@@ -87,7 +69,6 @@ for gamma in range(0,math.factorial(8)):
 print(len(Holder_of_Min_NumberCombos))
 Holder_of_Min_NumberCombos.sort()
 print(Holder_of_Min_NumberCombos)
-
-x=1/0
+f.close()
 
 

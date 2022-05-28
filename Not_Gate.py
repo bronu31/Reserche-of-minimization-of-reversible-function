@@ -7,4 +7,4 @@ class Not_Gate:
     def use_Not(self,num):
         return num ^ (1 << self.lain)
 
-    def __str__(self): return "Отрицание на полосе: {}".format(self.lain)
+    def __str__(self): return "Npt on lain: {}".format(self.lain)
