@@ -16,23 +16,24 @@ import Genetic_Algoritm_Struct as GAS
 
 #diff_list.append([])
 
-lib=lb.library_bulder(4)
-test_dict = {"0": lib.place_Not(0),
-                     "1": lib.place_Not(1),
-                     "2": lib.place_Not(2),
-                     "3": lib.place_Not(3),
-                     "4": lib.place_Toffoli([0, 1, 2]),
-                     "5": lib.place_Toffoli([0, 1, 3]),
-                     "6": lib.place_Toffoli([0, 2, 3]),
-                     "7": lib.place_Toffoli([1, 0, 2]),
-                     "8": lib.place_Toffoli([1, 0, 3]),
-                     "9": lib.place_Toffoli([1, 2, 3]),
-                     "10": lib.place_Toffoli([2, 1, 0]),
-                     "11": lib.place_Toffoli([2, 0, 3]),
-                     "12": lib.place_Toffoli([2, 1, 3]),
-                     "13": lib.place_Toffoli([3, 1, 2]),
-                     "14": lib.place_Toffoli([3, 1, 0]),
-                     "15": lib.place_Toffoli([3, 2, 0])
+lib = lb.library_bulder(4)
+
+test_dict = {"0": 0,
+                     "1": 1,
+                     "2": 2,
+                     "3": 3,
+                     "4": [0, 1, 2],
+                     "5": [0, 1, 3],
+                     "6": [0, 2, 3],
+                     "7": [1, 0, 2],
+                     "8": [1, 0, 3],
+                     "9": [1, 2, 3],
+                     "10": [2, 1, 0],
+                     "11": [2, 0, 3],
+                     "12": [2, 1, 3],
+                     "13": [3, 1, 2],
+                     "14": [3, 1, 0],
+                     "15": [3, 2, 0]
                      }
 
 
@@ -54,40 +55,10 @@ def factorize(holder):
 def placer_and_calculator(lib,diff_element):
     lib.clear()
     for i in range(0, len(diff_element)):
-
-        if diff_element[i] == 0:
-            lib.place_Not(0)
-        elif diff_element[i] == 1:
-            lib.place_Not(1)
-        elif diff_element[i] == 2:
-            lib.place_Not(2)
-        elif diff_element[i] == 3:
-            lib.place_Not(3)
-        elif diff_element[i] == 4:
-            lib.place_Toffoli([0, 1, 2])
-        elif diff_element[i] == 5:
-            lib.place_Toffoli([0, 1, 3])
-        elif diff_element[i] == 6:
-            lib.place_Toffoli([0, 2, 3])
-        elif diff_element[i] == 7:
-            lib.place_Toffoli([1, 0, 2])
-        elif diff_element[i] == 8:
-            lib.place_Toffoli([1, 0, 3])
-        elif diff_element[i] == 9:
-            lib.place_Toffoli([1, 2, 3])
-        elif diff_element[i] == 10:
-            lib.place_Toffoli([2, 1, 0])
-        elif diff_element[i] == 11:
-            lib.place_Toffoli([2, 0, 3])
-        elif diff_element[i] == 12:
-            lib.place_Toffoli([2, 1, 3])
-        elif diff_element[i] == 13:
-            lib.place_Toffoli([3, 1, 2])
-        elif diff_element[i] == 14:
-            lib.place_Toffoli([3, 1, 0])
-        elif diff_element[i] == 15:
-            lib.place_Toffoli([3, 2, 0])
-
+        if 0 <= diff_element[i] <= 3:
+            lib.place_Not(test_dict[str(diff_element[i])])
+        else:
+            lib.place_Toffoli(test_dict[str(diff_element[i])])
     arrr = [i for i in range(0, 16)]
 
     for j in arrr: arrr[j] = lib.calculate(j)
@@ -140,22 +111,25 @@ Holder_of_Min_NumberCombos=[1313941673647,
 f = open('all of 4.txt', 'w')
 
 start = timeit.default_timer()
+copp=0
 for gamma in range(0,126618076):
     diff_list.append([])
     fact = 0
     for ii in range(0, len(diff_list[-2])):
         for j in range(0, len(diff_list[1])):
             diff_list[-1].append([*diff_list[-2][ii], *diff_list[1][j]])
-            fact = factorize(placer_and_calculator(lib, diff_list[-1][-1]))
+            copp=placer_and_calculator(lib, diff_list[-1][-1])
+            fact = factorize(copp)
             if fact in Holder_of_Min_NumberCombos:
                 del diff_list[-1][-1]
             else:
                 Holder_of_Min_NumberCombos.append(fact)
-                f.write( str(placer_and_calculator(lib, diff_list[-1][-1]))+" "+ str(diff_list[-1][-1]) +"\n")
-    if len(Holder_of_Min_NumberCombos)>=126618076: break
+                f.write( str(copp)+" "+ str(diff_list[-1][-1]) +"\n")
+    if len(diff_list[-1][-1])==8: break
     gamma=len(Holder_of_Min_NumberCombos)
     print(len(Holder_of_Min_NumberCombos))
     print('Time: ', timeit.default_timer() - start)
+
 
 print(len(Holder_of_Min_NumberCombos))
 Holder_of_Min_NumberCombos.sort()

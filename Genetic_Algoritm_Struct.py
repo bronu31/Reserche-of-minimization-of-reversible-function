@@ -9,32 +9,43 @@ import library_bulder as lb
 
 lib = lb.library_bulder(4)
 
-test_dict = {"0": lib.place_Not(0),
-                     "1": lib.place_Not(1),
-                     "2": lib.place_Not(2),
-                     "3": lib.place_Not(3),
-                     "4": lib.place_Toffoli([0, 1, 2]),
-                     "5": lib.place_Toffoli([0, 1, 3]),
-                     "6": lib.place_Toffoli([0, 2, 3]),
-                     "7": lib.place_Toffoli([1, 0, 2]),
-                     "8": lib.place_Toffoli([1, 0, 3]),
-                     "9": lib.place_Toffoli([1, 2, 3]),
-                     "10": lib.place_Toffoli([2, 1, 0]),
-                     "11": lib.place_Toffoli([2, 0, 3]),
-                     "12": lib.place_Toffoli([2, 1, 3]),
-                     "13": lib.place_Toffoli([3, 1, 2]),
-                     "14": lib.place_Toffoli([3, 1, 0]),
-                     "15": lib.place_Toffoli([3, 2, 0])
-                     }
-
-
-
 
 def placer_and_calculator(diff_element):
     lib.clear()
     for i in range(0, len(diff_element)):
 
-        test_dict[str(diff_element[i])]
+        if diff_element[i] == 0:
+            lib.place_Not(0)
+        elif diff_element[i] == 1:
+            lib.place_Not(1)
+        elif diff_element[i] == 2:
+            lib.place_Not(2)
+        elif diff_element[i] == 3:
+            lib.place_Not(3)
+        elif diff_element[i] == 4:
+            lib.place_Toffoli([0, 1, 2])
+        elif diff_element[i] == 5:
+            lib.place_Toffoli([0, 1, 3])
+        elif diff_element[i] == 6:
+            lib.place_Toffoli([0, 2, 3])
+        elif diff_element[i] == 7:
+            lib.place_Toffoli([1, 0, 2])
+        elif diff_element[i] == 8:
+            lib.place_Toffoli([1, 0, 3])
+        elif diff_element[i] == 9:
+            lib.place_Toffoli([1, 2, 3])
+        elif diff_element[i] == 10:
+            lib.place_Toffoli([2, 1, 0])
+        elif diff_element[i] == 11:
+            lib.place_Toffoli([2, 0, 3])
+        elif diff_element[i] == 12:
+            lib.place_Toffoli([2, 1, 3])
+        elif diff_element[i] == 13:
+            lib.place_Toffoli([3, 1, 2])
+        elif diff_element[i] == 14:
+            lib.place_Toffoli([3, 1, 0])
+        elif diff_element[i] == 15:
+            lib.place_Toffoli([3, 2, 0])
     arrr = [i for i in range(0, 16)]
 
     for j in arrr: arrr[j] = lib.calculate(j)
@@ -85,7 +96,7 @@ def random_gates(number_of_gates):
     for i in range(0, number_of_gates):
         gates.append(rd.randint(0, 15))
     total.append(gates)
-    total.append(placer_and_calculator(gates))
+    #total.append(placer_and_calculator(gates))
     return total
 
 def reproduction(pop):
@@ -141,13 +152,13 @@ def take_genes(sub1,sub2):
 if __name__ == '__main__':
 
     global pop_size
-    pop_size=200
+    pop_size=125
     global target
     target=[0, 1, 2, 10, 4, 12, 6, 15, 8, 14, 11, 5, 9, 7, 3, 13]
     global cycles
     global mutation_chance
     mutation_chance=0.8
-    cycles=125
+    cycles=75
     procs = []
     manager = mp.Manager()
     L = manager.list()
@@ -158,21 +169,21 @@ if __name__ == '__main__':
 
     generate(pop)
 
-    #Pool_List=manager.list()
-   # for i in range(0,len(pop)):
-    #    proc = Process(target=parralel_placer, args=(pop[i][:int(len(pop[i]) / 2)], L))
-    #    procs.append(proc)
-    #    proc.start()
-    #    proc = Process(target=parralel_placer, args=(pop[i][int(len(pop[i]) / 2):], L))
-    #    procs.append(proc)
-    #    proc.start()
+    Pool_List=manager.list()
+    for i in range(0,len(pop)):
+        proc = Process(target=parralel_placer, args=(pop[i][:int(len(pop[i]) / 2)], L))
+        procs.append(proc)
+        proc.start()
+        proc = Process(target=parralel_placer, args=(pop[i][int(len(pop[i]) / 2):], L))
+        procs.append(proc)
+        proc.start()
 
-    #for proc in procs:
-    #    proc.join()
-    #pop.clear()
-    #for i in range(0,32): pop.append([])
-    #for i in range(0,len(L)):
-    #    pop[len(L[i][0])-1].append(L[i])
+    for proc in procs:
+        proc.join()
+    pop.clear()
+    for i in range(0,32): pop.append([])
+    for i in range(0,len(L)):
+        pop[len(L[i][0])-1].append(L[i])
 
     end = time.time()
     print(end - start)
@@ -183,26 +194,26 @@ if __name__ == '__main__':
 
 
     for i in range(0,cycles):
-        #L[:] = []
+        L[:] = []
         sorting_madnesss(pop)
         pop=reproduction(pop)
-       # procs.clear()
+        procs.clear()
 
-        #for i in range(0, len(pop)):
-        #    proc = Process(target=parralel_placer, args=(pop[i][:int(len(pop[i])/2)], L))
-        #    procs.append(proc)
-        #    proc.start()
-        #    proc = Process(target=parralel_placer, args=(pop[i][int(len(pop[i])/2):], L))
-        #    procs.append(proc)
-        #    proc.start()
+        for i in range(0, len(pop)):
+            proc = Process(target=parralel_placer, args=(pop[i][:int(len(pop[i])/2)], L))
+            procs.append(proc)
+            proc.start()
+            proc = Process(target=parralel_placer, args=(pop[i][int(len(pop[i])/2):], L))
+            procs.append(proc)
+            proc.start()
 
-       # for proc in procs:
-        #    proc.join()
+        for proc in procs:
+            proc.join()
 
-       # pop.clear()
-        #for i in range(0, 32): pop.append([])
-       # for i in range(0, len(L)):
-        #    pop[len(L[i][0]) - 1].append(L[i])
+        pop.clear()
+        for i in range(0, 32): pop.append([])
+        for i in range(0, len(L)):
+            pop[len(L[i][0]) - 1].append(L[i])
 
 
 
