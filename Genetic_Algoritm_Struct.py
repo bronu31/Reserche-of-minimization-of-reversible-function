@@ -152,13 +152,13 @@ def take_genes(sub1,sub2):
 if __name__ == '__main__':
 
     global pop_size
-    pop_size=125
+    pop_size=400
     global target
-    target=[0, 1, 2, 10, 4, 12, 6, 15, 8, 14, 11, 5, 9, 7, 3, 13]
+    target=[3, 2, 1, 13, 15, 9, 5, 6, 7, 10, 8, 0, 11, 12, 4, 14]
     global cycles
     global mutation_chance
     mutation_chance=0.8
-    cycles=75
+    cycles=250
     procs = []
     manager = mp.Manager()
     L = manager.list()
