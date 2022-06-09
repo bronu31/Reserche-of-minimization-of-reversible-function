@@ -66,7 +66,7 @@ def sorting_madnesss(pop):
         pop[i]=level_pop
 
 
-def fitness(pop,function,list_lol):
+def fitness(pop,function,list_lol,alpha):
     distance=0
     for i in range(0,len(pop)):
         for z in range(0,len(pop[i])):
@@ -77,14 +77,14 @@ def fitness(pop,function,list_lol):
                     continue
                 else: distance+=1
             pop[i][z].append(distance)
-            if distance==0:list_lol.append(pop[i][z])
+            if distance==0:list_lol.append([pop[i][z],alpha])
 
 
 
 
 
 def generate(pop):
-    for i in range(1, 33):
+    for i in range(7, cicr_diss):
         pop.append([])
         for z in range(0, pop_size):
             pop[-1].append(random_gates(i))
@@ -152,24 +152,24 @@ def take_genes(sub1,sub2):
 if __name__ == '__main__':
 
     global pop_size
-    pop_size=600
+    pop_size=800
     global target
-    target=[3, 6, 1, 4, 14, 10, 5, 0, 11, 15, 9, 13, 7, 2, 12, 8]
+    target=[0, 1, 2, 6, 4, 13, 7, 14, 8, 3, 15, 5, 11, 12, 9, 10]
     global cycles
     global mutation_chance
     mutation_chance=0.8
-    cycles=100
+    cycles=600
     procs = []
     manager = mp.Manager()
     L = manager.list()
+    global cicr_diss
+    cicr_diss=11
 
 
     pop = []
     start = time.time()
 
     generate(pop)
-
-    Pool_List=manager.list()
     for i in range(0,len(pop)):
         proc = Process(target=parralel_placer, args=(pop[i][:int(len(pop[i]) / 2)], L))
         procs.append(proc)
@@ -181,19 +181,21 @@ if __name__ == '__main__':
     for proc in procs:
         proc.join()
     pop.clear()
-    for i in range(0,32): pop.append([])
+    for i in range(7,cicr_diss): pop.append([])
     for i in range(0,len(L)):
-        pop[len(L[i][0])-1].append(L[i])
+        print(L[i])
+        pop[len(L[i][0])-7].append(L[i])
 
     end = time.time()
     print(end - start)
     list_lol = []
-    #x = 1 / 0
-    fitness(pop, target,list_lol)
-    #
+    fitness(pop, target,list_lol,0)
+    pon_pon=25
 
-
-    for i in range(0,cycles):
+    start_time = time.time()
+    seconds=3600
+    while True:
+        current_time = time.time()
         L[:] = []
         sorting_madnesss(pop)
         pop=reproduction(pop)
@@ -211,15 +213,18 @@ if __name__ == '__main__':
             proc.join()
 
         pop.clear()
-        for i in range(0, 32): pop.append([])
+        for i in range(7, cicr_diss): pop.append([])
         for i in range(0, len(L)):
-            pop[len(L[i][0]) - 1].append(L[i])
+            pop[len(L[i][0]) - 7].append(L[i])
 
 
+        fitness(pop, target,list_lol,time.time()-start_time)
 
-
-        fitness(pop, target,list_lol)
         print(time.time() - start)
+        elapsed_time = current_time - start_time
+        if elapsed_time > seconds:
+            print("Finished iterating in: " + str(int(elapsed_time)) + " seconds")
+            break
 
     sorting_madnesss(pop)
     end = time.time()
