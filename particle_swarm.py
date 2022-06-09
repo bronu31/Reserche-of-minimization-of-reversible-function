@@ -152,6 +152,7 @@ def the_hunt(entire_swarm):
             min_min=entire_swarm[i].particle_postition
             min_pos=i
     for z in range(0,len(entire_swarm)):entire_swarm[z].global_minimum=[entire_swarm[min_pos].particle_body,entire_swarm[min_pos].particle_postition]
+
 class Particle_swarm:
     def __init__(self, count):
         self.swarm=[]
@@ -208,24 +209,19 @@ class Particle_class:
 
 
 
-def big_bang(particles_count):
-    new_begining=[]
-    for matter in particles_count:
-        new_begining.append([])
 
 
 
-
-
-particles_count=50000
+particles_count=6400
 global target
 cycles=5000
 list_lol=[]
 blogalus_minimus=[]
-target=[3, 2, 1, 13, 15, 9, 5, 6, 7, 10, 8, 0, 11, 12, 4, 14]
+target=[14, 6, 9, 0, 3, 2, 4, 5, 10, 15, 13, 8, 7, 11, 12, 1]
 print("begin:" , time.time() - start)
 particle_swarm=Particle_swarm(particles_count)
 print("created:" , time.time() - start)
+f=open("total.txt","w")
 #for x in range(0,len(particle_swarm)):
 #    print(str(particle_swarm[x]))
 for z in range(0,cycles):
@@ -235,7 +231,9 @@ for z in range(0,cycles):
         #print(str(particle_swarm[p]))
         if particle_swarm[p].particle_head==target: list_lol.append(particle_swarm[p])
     blogalus_minimus.append(particle_swarm[0].global_minimum[0])
-print(time.time() - start)
+    for i in range(0,len(particle_swarm)):
+        f.write(str(particle_swarm[i]))
+    print(time.time() - start)
 print(list_lol)
 for i in range(0,len(list_lol)):
     print("AAAAAAAAAAA")
@@ -243,3 +241,4 @@ for i in range(0,len(list_lol)):
 for i in range(0,len(blogalus_minimus)):
     print("AAAAAAAAAAA")
     print(str(blogalus_minimus[i]))
+f.close()
