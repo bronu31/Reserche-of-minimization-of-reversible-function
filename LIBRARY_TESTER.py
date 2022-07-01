@@ -34,14 +34,18 @@ def placer_and_calculator(diff_element):
     return arrr
 #6
 
-
-garfield=[5, 14, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, 6, 12, 14, 2, 2, 15, 14]
-print(placer_and_calculator([5, 14, 8, 6, 12, 15]))
-[0, 1, 2, 10, 4, 12, 6, 15, 8, 14, 11, 5, 9, 7, 3, 13]
+[[3, 3, 1], [5, 12, 13, 7, 3, 4, 0], [9, 8, 11, 10, 13, 3, 6, 4, 1, 0, 15, 14, 5, 7, 2, 12]]
+garfield=[13, 1, 9, 14, 13, 0, 14, 13, 8, 1, 6, 1, 9, 5, 15]
+[13, 2, 9, 0, 8, 9, 6, 5, 1, 15]
+[13, 1, 9, 14, 13, 0, 14, 13, 8, 6, 9, 5, 15]
+print(placer_and_calculator([12,0,12]),"AAAAAAAAAAAAAAAAAAAA")
+print(placer_and_calculator([0]),"AAAAAAAAAAAAAAAAAAAA")
+[13, 1, 9, 14, 13, 0, 14, 13, 8, 6, 9, 5, 15]
 [0, 1, 2, 10, 4, 12, 6, 15, 8, 14, 11, 5, 9, 7, 3, 13]
 
 #5, 14, 8, 6, 12, 15
 [4, 7, 6, 14, 0, 10, 2, 9, 12, 15, 13, 5, 8, 11, 3, 1]
+#z=1/0
 repeat=0
 begin=0
 end=0
@@ -86,14 +90,23 @@ pattern_for_3=[[0,1,0],[0,2,0],[0,3,0],
 
 for i in range(0,16):
     z=0
+    if len(garfield)==1:
+        break
     while(z!=len(garfield)-1):
+        if len(garfield) == 1:
+            break
+        #print([2, 3, 4, 1, 1, 4, 3])
         if garfield[z]==garfield[z+1] :
             del garfield[z:z+2]
             z=0
         z+=1
 for i in range(0,len(pattern_for_3)):
     z=1
+    if len(garfield)==1 or len(garfield)==2:
+        break
     while(z!=len(garfield)-1):
+        if len(garfield) == 1:
+            break
         if [garfield[z-1],garfield[z],garfield[z+1]]==pattern_for_3[i] :
 
             del garfield[z+1]

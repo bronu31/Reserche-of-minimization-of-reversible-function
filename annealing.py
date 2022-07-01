@@ -54,23 +54,18 @@ def atom_movement(popul):
         if movement_chance>=0.25:
             if 0<chance<0.25:
                 if len(popul[i][0]) == 0: continue
-                #TODO left
                 pos=rd.randint(0, len(popul[i][0]) - 1)
                 new_move[0][pos]=(rd.randint(0, popul[i][0][pos]))
             elif 0.25<=chance<0.5:
-
                 new_move[0].append(rd.randint(0, 15))
-                #TODO up
             elif 0.5<=chance<0.75:
                 if len(popul[i][0])==0: continue
                 pos = rd.randint(0, len(popul[i][0]) - 1)
                 new_move[0][pos] = \
                     (rd.randint(popul[i][0][pos], 15))
-                #TODO right
             elif 0.75<=chance<1:
                 if len(popul[i][0]) == 0: continue
                 new_move[0].pop()
-                #TODO down
         new_move[2]=entropy_check(new_move[1],target)
         #print(new_move[2], popul[i][2])
         if new_move[2]<popul[i][2]:
@@ -99,7 +94,7 @@ def entropy_position_first(pop,function,list_lol):
         pop[i].append(distance)# TODO STUPID DOG
         if distance==0:list_lol.append(pop[i])
 
-def entropy_position_second(pop,function,list_lol):
+def entropy_position_second(pop,function,asnwer):
     distance=0
     for i in range(0,len(pop)):
 
@@ -109,7 +104,7 @@ def entropy_position_second(pop,function,list_lol):
                 continue
              else: distance+=1
         pop[i][2]=distance# TODO STUPID DOG
-        if distance==0:list_lol.append(pop[i])
+        if distance==0:asnwer.append(pop[i])
 
 
 def lattice_create(pop):
